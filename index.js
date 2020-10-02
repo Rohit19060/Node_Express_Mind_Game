@@ -1,11 +1,11 @@
-const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
 const Game = require("./game");
+const express = require("express");
 
-app.use(express.static("public"));
-app.use(bodyParser.json());
+const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static("public"));
 
 app.post("/game", (request, response) => {
   response.json(new Game().sequence(request.body.result));
@@ -13,6 +13,4 @@ app.post("/game", (request, response) => {
 
 var port = 8080 || process.env.PORT || parseInt(process.argv.pop());
 
-app.listen(port, () =>
-  console.log("Example app listening on http://localhost:" + port)
-);
+app.listen(port, () => console.log("Example app listening on " + port));

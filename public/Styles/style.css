@@ -6,6 +6,12 @@
 body {
     margin: 10%;
     text-align: center;
+    animation: anim 15s infinite;
+    font-family: 'Segoe UI',
+        Tahoma,
+        Geneva,
+        Verdana,
+        sans-serif;
 }
 
 #buttons {
@@ -65,4 +71,30 @@ input:hover,
 h3 {
     letter-spacing: 1px;
     word-spacing: 6px;
+}
+
+@keyframes anim {
+    0% {
+        background: #FDEB71;
+    }
+
+    20% {
+        background: #ABCDFF;
+    }
+
+    40% {
+        background: #FEB692;
+    }
+
+    60% {
+        background: #FFF6B7;
+    }
+
+    80% {
+        background: #81FBB8;
+    }
+
+    100% {
+        background: #FDEB71;
+    }
 }

@@ -1,10 +1,11 @@
 var resultArray = [];
-
 $("#go").click(() => {
   $("#go").addClass("hide");
+
   var mainDiv = document.createElement("div");
   mainDiv.setAttribute("id", "buttons");
   document.body.append(mainDiv);
+
   window.intErval = setInterval(function () {
     var newSec = parseInt($("#timer").text());
     $("#timer").text(--newSec);
@@ -15,54 +16,68 @@ $("#go").click(() => {
       resultArray = [];
       clearInterval(intErval);
       alert("Game Finish You Didn't Finish On time");
-      $("#timer").text("10");
+      $("#timer").text("15");
       $("#timerMain").addClass("hide");
       $("#go").removeClass("hide");
       $("#buttons").remove();
+    } else {
+      clearInterval(intErval);
     }
-  }, 10000);
+  }, 15000);
 
   var setElement = new Set();
-  for (let i = 0; i < 20; i++) {
-    setElement.add(Math.ceil(Math.random() * 20));
-    if (setElement.size == 10) {
-      break;
-    }
+  while (setElement.size < 10) {
+    setElement.add(Math.ceil(Math.random() * 10));
   }
 
   var arrayElement = [...setElement];
   var inputs = [];
-  for (let i = 0; i < 10; i++) {
+
+  arrayElement.forEach((element) => {
     var btn = document.createElement("input");
-    btn.value = arrayElement[i];
+    btn.value = element;
     btn.setAttribute("onclick", "createSequence(this)");
     btn.setAttribute("readonly", true);
-    btn.setAttribute("id", arrayElement[i]);
+    btn.setAttribute("id", element);
     inputs.push(btn);
-  }
+  });
 
   $("#buttons").html(inputs);
   $("#timerMain").removeClass("hide");
 });
 
 function createSequence(e) {
+  console.count();
+  $("#" + e.id).attr("disabled", "disabled");
+  $("#" + e.id).addClass("disabled");
   if (resultArray.length < 10) {
     resultArray.push(e.id);
   }
-  $("#" + e.id).attr("disabled", "disabled");
-  $("#" + e.id).addClass("disabled");
   if (resultArray.length == 10) {
     $.post("game", { result: resultArray }, (xData, status) => {
-      if (status == "success") {
-        clearInterval(intErval);
-        intErval = false;
-        resultArray = [];
-        var time = 15 - parseInt($("#timer").text());
-        alert("Game Finish \nYou Take " + time + " Seconds\n Result: " + xData);
-        $("#timer").text("10");
-        $("#timerMain").addClass("hide");
-        $("#go").removeClass("hide");
-        $("#buttons").remove();
+      switch (status) {
+        case "success":
+          clearInterval(intErval);
+          intErval = false;
+          resultArray = [];
+          var time = 15 - parseInt($("#timer").text());
+          alert(
+            "Game Finish \nYou Take " + time + " Seconds\n Result: " + xData
+          );
+          $("#timer").text("15");
+          $("#timerMain").addClass("hide");
+          $("#go").removeClass("hide");
+          $("#buttons").remove();
+          break;
+        case "error":
+          console.log("There is some Error in Response");
+          break;
+        case "Not Found":
+          console.log("Not Found");
+          break;
+        default:
+          console.log("Default");
+          break;
       }
     });
   }
