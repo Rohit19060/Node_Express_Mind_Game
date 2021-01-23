@@ -13,4 +13,6 @@ app.post("/game", (request, response) => {
 
 var port = 8080 || process.env.PORT || parseInt(process.argv.pop());
 
-app.listen(port, () => console.log("Example app listening on " + port));
+app.listen(port, () =>
+  console.log(`Server listening on http://localhost:${port}/`)
+);
