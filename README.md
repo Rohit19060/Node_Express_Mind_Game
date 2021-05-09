@@ -41,8 +41,6 @@
 
 ## 🚀 Features
 
-## 🚀 Features
-
 - **Simple and minimal design**
 
 - **Just focus on the main things**
